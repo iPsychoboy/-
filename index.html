@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>اعايدك وانت عيدي
+    </title>
+    <style>
+        @font-face { font-family: 'f2'; src: url('font2.ttf'); }
+        @font-face { font-family: 'f3'; src: url('font3.otf'); }
+
+        :root { --burgundy: #3d0007; --cream: #f5f1e6; }
+
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            background-color: var(--burgundy); overflow: hidden; 
+        }
+
+        /* 1. الدانتيل والجيف [كما هي] */
+        .lace-area { position: absolute; right: 0px; top: 0px; width: 90%; height: 300px; background: url('lace_bg.png') no-repeat right top; background-size: contain; z-index: 1; }
+        .lady-gif { position: absolute; right: 0px; top: 5px; width: 380px; height: auto; z-index: 2; }
+        .gif-text { position: absolute; right: 5px; top: 225px; font-family: 'f2'; color: var(--burgundy); font-weight: bold; font-size: 1.2rem; z-index: 3; }
+        .side-lady { position: absolute; right: 0px; bottom: 130px; width: 220px; height: auto; z-index: 2; }
+        .env-box { position: absolute; left: 15px; top: 30vh; text-align: center; z-index: 10; }
+        .envelope-img { width: 130px; cursor: pointer; }
+
+        /* ------------------------------------------------ */
+        /* لوحة التحكم الجديدة: القصيدة والصور الداخلية */
+        /* ------------------------------------------------ */
+
+        /* 2. التحكم في القصيدة */
+        .poetry-area { 
+            position: absolute;
+            left: 0px; 
+            bottom: 17vh; 
+            z-index: 10;
+            text-align: center;
+            /* عدل هنا لفتح عرض القصيدة أو تضييقها */
+            width: 240px; 
+        }
+        .poetry-text {
+            font-family: 'f3'; color: var(--cream); 
+            font-size: 1.2rem;   /* حجم خط القصيدة */
+            line-height: 2;     /* المسافة بين أسطر القصيدة */
+            margin-bottom: 10px;
+        }
+
+        /* 3. التحكم في صور "وردة ليلي" (داخل الكيكة) */
+        .cake-img { 
+            width: 120px;  /* عرض الكيكة */
+            height: auto;  /* اتركها auto للحفاظ على التناسق أو حدد بالبيكسل */
+        }
+        .decor-img { 
+            width: 90px;   /* عرض الصورة الإضافية (إكسترا فوتو) */
+            height: auto;
+        }
+        .blue-rose { 
+            width: 170px;  /* عرض الوردة الزرقاء */
+            height: auto;
+        }
+
+        /* 4. وردة ليلي (الزر) */
+        .lily-btn { width: 84px; height: auto; cursor: pointer; }
+
+        /* ------------------------------------------------ */
+        /* لوحة التحكم في البوست كارد */
+        /* ------------------------------------------------ */
+        .letter-title { position: absolute; top: 53%; right: 0%; font-family: 'f3'; font-size: 1.3rem; color: var(--burgundy); font-weight: bold; }
+        .letter-body { position: absolute; top: 55%; left: 12%; right: 12%; text-align: center; font-family: 'f3'; font-size: 0.85rem; line-height: 1.3; color: var(--burgundy); max-height: 55%; overflow-y: auto; }
+
+        /* ------------------------------------------------ */
+        /* تنسيقات الواجهات (لا تلمسها) */
+        /* ------------------------------------------------ */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; background: rgba(0,0,0,0.85); z-index: 1000; }
+        .cake-modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; height: 80vh; background: var(--cream); border: 15px solid transparent; border-image: url('lace_bg.png') 30 round; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .back-nav { position: absolute; top: 15px; right: 20px; color: var(--burgundy); font-family: 'f2'; font-weight: bold; cursor: pointer; }
+        .cake-flex { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
+        .blow-txt { color: var(--burgundy); font-family: 'f2'; font-size: 1.7rem; margin-top: 20px; }
+        .letter-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
+        .postcard { width: 95%; height: 80vh; background: url('postcard_bg.png') no-repeat center; background-size: contain; position: relative; }
+        .letter-back { position: absolute; top: 20px; right: 20px; color: var(--burgundy); font-family: 'f2'; font-weight: bold; cursor: pointer; z-index: 100; }
+        .blur { filter: blur(10px); }
+    </style>
+</head>
+<body>
+
+    <div id="mainUI">
+        <div class="lace-area"></div>
+        <img src="lady_animated.gif" class="lady-gif">
+        <div class="gif-text">قلب  يفز  من  الفرح  لين  لاقاك</div>
+        <img src="lady_roses.png" class="side-lady">
+
+        <div class="env-box" onclick="showLetter()">
+            <img src="envelope_icon.png" class="envelope-img">
+            <div style="color:var(--cream); font-family:'f2'; font-size:0.9rem; margin-top:5px;">كل عام وأنتِ بخير</div>
+        </div>
+
+        <div class="poetry-area">
+            <div class="poetry-text">
+                طُ<br>
+               جَبُ<br>
+                وَ<br>
+                بَ
+            </div>
+            <img src="white_lily.png" class="lily-btn" onclick="showCake()">
+            <span style="color:var(--cream); font-family:'f2'; display:block; font-size:0.8rem; margin-top:5px;">اضغطي الورده اول !</span>
+        </div>
+    </div>
+
+    <div class="overlay" id="cakeOverlay">
+        <div class="cake-modal">
+            <div class="back-nav" onclick="hideCake()">عودة للظرف</div>
+            <div class="cake-flex">
+                <img src="extra_photo.png" class="decor-img">
+                <img src="cake_candles_on.gif" id="cakeGif" class="cake-img">
+                <img src="blue_bouquet.png" class="blue-rose">
+            </div>
+            <div class="blow-txt" id="status">انفخي الشموع !</div>
+        </div>
+    </div>
+
+    <div class="letter-overlay" id="letterUI">
+        <div class="postcard">
+            <div class="letter-back" onclick="hideLetter()">عودة</div>
+            <div class="letter-title">الى </div>
+            <div class="letter-body">
+                السلام عليكم ورحمة الله وبركاته<br><br>
+         وانتي .<br><br>
+                <strong>مليه</strong>
+            </div>
+        </div>
+    </div>
+
+    <audio id="music" src="celebration_music.mp3" loop></audio>
+    <audio id="clap" src="claps.mp3"></audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        function showCake() { document.getElementById('mainUI').classList.add('blur'); document.getElementById('cakeOverlay').style.display = 'block'; startBlow(); }
+        function hideCake() { document.getElementById('mainUI').classList.remove('blur'); document.getElementById('cakeOverlay').style.display = 'none'; }
+        function showLetter() { document.getElementById('letterUI').style.display = 'flex'; document.getElementById('music').play(); }
+        function hideLetter() { document.getElementById('letterUI').style.display = 'none'; document.getElementById('music').pause(); }
+
+        function startBlow() {
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(s => {
+                const ac = new AudioContext(); const an = ac.createAnalyser();
+                ac.createMediaStreamSource(s).connect(an); const d = new Uint8Array(an.frequencyBinCount);
+                function l() {
+                    an.getByteFrequencyData(d);
+                    if (d.reduce((a, b) => a + b) / d.length > 50) {
+                        document.getElementById('cakeGif').src = 'cake_candles_off.gif';
+                        document.getElementById('status').innerText = 'كل عام وأنتِ بخير';
+                        document.getElementById('clap').play();
+                        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                        s.getTracks().forEach(t => t.stop());
+                    } else if (document.getElementById('cakeOverlay').style.display === 'block') requestAnimationFrame(l);
+                }
+                l();
+            }).catch(e => console.log("Audio needed for candles"));
+        }
+    </script>
+</body>
+</html>
